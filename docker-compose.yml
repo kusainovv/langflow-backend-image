@@ -1,11 +1,15 @@
 services:
 
   backend: &backend
-    image: "langflowai/langflow-backend:latest"
+    build: 
+      context: .
+      dockerfile: Dockerfile
     env_file:
       - .env
     healthcheck:
       test: "exit 0"
+    networks:
+      - dokploy-network
     deploy:
       labels:
         - traefik.enable=true

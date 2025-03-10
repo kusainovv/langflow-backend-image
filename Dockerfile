@@ -15,13 +15,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy dependencies first (improves build cache)
-COPY pyproject.toml poetry.lock ./
+COPY backend/base/pyproject.toml ./
 
 # Install Poetry and Python dependencies
 RUN pip install poetry && poetry config virtualenvs.create false && poetry install --no-root --only main
 
 # Copy entire backend application code into the container
-COPY . .
+COPY backend .
 
 # Stage 2: Create runtime stage
 FROM python:3.11-slim
